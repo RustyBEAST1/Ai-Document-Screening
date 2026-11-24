@@ -36,8 +36,8 @@ def parse_mrz(lines: List[str]) -> Dict[str, Any]:
     mrz_lines = []
     for line in lines:
         clean = re.sub(r"\s+", "", line).upper()
-        # Look for 44-character MRZ lines with '<' fillers
-        if ("<" in clean) and len(clean) >= 30 and (clean.startswith("P<") or re.search(r"[A-Z0-9<]{30,}", clean)):
+        # Look for ICAO MRZ lines with '<' fillers
+        if ("<" in clean) and len(clean) >= 20 and (clean.startswith("P<") or re.search(r"[A-Z0-9<]{20,}", clean)):
             mrz_lines.append(clean)
             
     if len(mrz_lines) >= 2:

@@ -133,7 +133,7 @@ def generate_tampered_aadhaar():
 # ==========================================
 
 def generate_clean_pan():
-    """Authentic PAN Card with valid syntax [A-Z]{5}[0-9]{4}[A-Z] and entity 'P'."""
+    """Authentic PAN Card with valid syntax ABCPS2345F and entity 'P'."""
     w, h = 950, 600
     img = np.ones((h, w, 3), dtype=np.uint8)
     img[:, :] = (235, 242, 238)
@@ -153,9 +153,9 @@ def generate_clean_pan():
     cv2.putText(img, "Date of Birth", (260, 335), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (100, 100, 100), 1)
     cv2.putText(img, "12/05/1988", (260, 375), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 0), 2)
     
-    # Valid PAN format: ABCPS1234F ('P' = Individual, 'S' = Sharma)
+    # Valid PAN format: ABCPS2345F ('P' = Individual, 'S' = Sharma)
     cv2.putText(img, "Permanent Account Number", (260, 440), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (80, 80, 80), 1)
-    cv2.putText(img, "ABCPS1234F", (260, 490), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3)
+    cv2.putText(img, "ABCPS2345F", (260, 490), cv2.FONT_HERSHEY_DUPLEX, 1.25, (0, 0, 0), 3)
     
     # Signature Box
     cv2.rectangle(img, (50, 400), (210, 470), (250, 250, 250), -1)
@@ -225,11 +225,10 @@ def generate_clean_dl():
     cv2.putText(img, "Authorised to Drive: LMV, MCWG", (245, 340), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
     cv2.putText(img, "Validity: 17/06/2040", (245, 390), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
     
-    # Microchip Graphic
-    cv2.rectangle(img, (50, 360), (140, 440), (180, 195, 120), -1)
-    cv2.rectangle(img, (50, 360), (140, 440), (110, 120, 70), 2)
-    cv2.line(img, (95, 360), (95, 440), (110, 120, 70), 1)
-    cv2.line(img, (50, 400), (140, 400), (110, 120, 70), 1)
+    # Clean Smart Card Chip
+    cv2.rectangle(img, (50, 360), (130, 430), (200, 190, 130), -1)
+    cv2.rectangle(img, (50, 360), (130, 430), (140, 130, 80), 2)
+    cv2.rectangle(img, (75, 375), (105, 415), (170, 160, 100), -1)
     
     out_path = SAMPLES_DIR / "sample_dl_clean.png"
     cv2.imwrite(str(out_path), img)
@@ -265,7 +264,7 @@ def generate_blurry_dl():
 # ==========================================
 
 def generate_clean_voter():
-    """Authentic Voter ID Card with standard ECI EPIC format (WBF1948273)."""
+    """Authentic Voter ID Card with standard ECI EPIC format (WBF2345678)."""
     w, h = 900, 580
     img = np.ones((h, w, 3), dtype=np.uint8)
     img[:, :] = (244, 248, 240)
@@ -280,7 +279,7 @@ def generate_clean_voter():
     # EPIC Box: 3 letters + 7 digits
     cv2.rectangle(img, (250, 130), (620, 185), (230, 238, 230), -1)
     cv2.rectangle(img, (250, 130), (620, 185), (140, 160, 140), 2)
-    cv2.putText(img, "EPIC: WBF1948273", (265, 172), cv2.FONT_HERSHEY_SIMPLEX, 1.05, (10, 10, 120), 2)
+    cv2.putText(img, "EPIC: WBF2345678", (265, 172), cv2.FONT_HERSHEY_DUPLEX, 1.05, (10, 10, 120), 2)
     
     cv2.putText(img, "Elector's Name: RAJESH VERMA", (250, 230), cv2.FONT_HERSHEY_SIMPLEX, 0.85, (0, 0, 0), 2)
     cv2.putText(img, "Father's Name: SURESH VERMA", (250, 280), cv2.FONT_HERSHEY_SIMPLEX, 0.85, (0, 0, 0), 2)
@@ -336,7 +335,7 @@ def generate_clean_passport():
     
     cv2.rectangle(img, (10, 10), (w - 10, h - 10), (160, 170, 185), 2)
     cv2.putText(img, "PASSPORT - REPUBLIC OF INDIA", (220, 55), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (10, 10, 80), 3)
-    cv2.putText(img, "Type: P   Code: IND   Passport No: Z2094851", (150, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
+    cv2.putText(img, "Type: P   Code: IND   Passport No: A2094851", (150, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
     
     draw_realistic_photo_box(img, 50, 130, 175, 230)
     
@@ -349,14 +348,14 @@ def generate_clean_passport():
     cv2.putText(img, "Date of Expiry: 14/08/2032", (260, 385), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
     
     # Mathematically Valid 2-Line ICAO Doc 9303 MRZ
-    # Passport: Z2094851, Checksum digit = 2
-    cv2.rectangle(img, (20, 480), (w - 20, 620), (230, 232, 235), -1)
+    # Passport: A2094851, Checksum digit = 7
+    cv2.rectangle(img, (20, 480), (w - 20, 620), (255, 255, 255), -1)
     cv2.rectangle(img, (20, 480), (w - 20, 620), (190, 195, 205), 1)
     
     line1 = "P<INDSHARMA<<VIKRAM<<<<<<<<<<<<<<<<<<<<<<<<<"
-    line2 = "Z2094851<2IND9208153M3208140<<<<<<<<<<<<<<0"
-    cv2.putText(img, line1, (35, 535), cv2.FONT_HERSHEY_SIMPLEX, 0.72, (0, 0, 0), 2)
-    cv2.putText(img, line2, (35, 585), cv2.FONT_HERSHEY_SIMPLEX, 0.72, (0, 0, 0), 2)
+    line2 = "A2094851<7IND9208153M3208140<<<<<<<<<<<<<<0"
+    cv2.putText(img, line1, (35, 535), cv2.FONT_HERSHEY_DUPLEX, 0.75, (0, 0, 0), 1)
+    cv2.putText(img, line2, (35, 585), cv2.FONT_HERSHEY_DUPLEX, 0.75, (0, 0, 0), 1)
     
     out_path = SAMPLES_DIR / "sample_passport_clean.png"
     cv2.imwrite(str(out_path), img)
